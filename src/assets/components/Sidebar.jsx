@@ -16,11 +16,15 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import Cards from "./Cards";
-import { AccountCircle } from "@mui/icons-material";
-import { Grid, Menu, MenuItem } from "@mui/material";
+// import { AccountCircle } from "@mui/icons-material";
+// import { Menu, MenuItem } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import LoansChart from "./LoansChart";
 import Installment from "./Installment";
+import PaidAndOverdueInst from "./PaidAndOverdueInst";
+import BankAccountsCards from "./BankAccountsCards";
+import Cards from "./Cards";
+import TotalAmounts from "./TotalAmounts";
 
 const drawerWidth = 240;
 
@@ -70,6 +74,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
+  
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -102,19 +107,19 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  // const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleMenu = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} color="success">
+      <AppBar position="fixed" style={{ borderRadius: "24px" , top:'10px' , right:'0px',marginLeft:''}} open={open} color="success">
         <Toolbar>
           <IconButton
             onClick={handleDrawerClose}
@@ -141,10 +146,10 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            Dashboard
+            Slam Dashboard
           </Typography>
           <div>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -171,25 +176,29 @@ export default function MiniDrawer() {
             >
               <MenuItem onClick={handleClose}>Profile</MenuItem>
               <MenuItem onClick={handleClose}>My account</MenuItem>
-            </Menu>
+            </Menu> */}
           </div>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <Typography variant="h6" left noWrap component="h1" width>
-            Slam
+          <Typography variant="h6"  component="h1" width>
+            Technology Star
           </Typography>
         </DrawerHeader>
         <Divider />
         <List>
-          {["Dashboard"].map((text) => (
+          {["Slam Dashboard"].map((text) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
+                  margin:'10px',
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
+                  color:'green',
+                  background:'#d8e7da',
+                  borderRadius:'16px',
                 }}
               >
                 <ListItemIcon
@@ -197,6 +206,7 @@ export default function MiniDrawer() {
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    color:'green'
                   }}
                 >
                   <DashboardIcon />
@@ -207,49 +217,49 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Cards />
-
-        <Box sx={{ flexGrow: 1, marginTop: "20px" }}>
-          <Grid container spacing={3}>
-            <Grid item={true} xs={12} md={6}>
-              <Box borderRadius={8} width boxShadow={3} padding={2}>
-                <Typography variant="body1" component="h3" gutterBottom>
-                  Loan Accounts Stage
-                </Typography>
-                <Divider color="white" />
-                <LoansChart />
-              </Box>
-            </Grid>
-            <Grid item={true} xs={12} md={3}>
-              <Box borderRadius={8} width boxShadow={3} padding={2} height>
-                <Typography variant="body1" component="h3" gutterBottom>
-                  Installment
-                </Typography>
-                <Divider color="white" />
-                <Installment />
-              </Box>
-            </Grid>
-            <Grid container spacing={3} item={true} xs={12} md={3}>
-              <Grid  item={true} xs={12} md={12}>
-                <Box height borderRadius={8} width boxShadow={3} padding={2}>
-                  <Typography variant="body1" component="h3" gutterBottom>
-                    Installment Paid
-                  </Typography>
-                  <Divider color="white" />
-                </Box>
-              </Grid>
-              <Grid item={true} xs={12} md={12}>
-                <Box height borderRadius={8} width boxShadow={3} padding={2}>
-                  <Typography variant="body1" component="h3" gutterBottom>
-                    Installment Overdue
-                  </Typography>
-                  <Divider color="white" />
-                </Box>
-              </Grid>
-            </Grid>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 10 }}>
+        <Grid container spacing={3}>
+          <BankAccountsCards gridXsCol={12} gridMdCol={3} />
+          <LoansChart
+            gridXsCol={12}
+            gridMdCol={6}
+            title="Loan Accounts Stage"
+          />
+          <Installment gridXsCol={12} gridMdCol={3} title="Installment" />
+          <Grid xs={12} md={3}>
+            <PaidAndOverdueInst
+              gridXsCol={12}
+              gridMdCol={12}
+              title="nstallment Paid"
+            />
+            <PaidAndOverdueInst
+              gridXsCol={12}
+              gridMdCol={12}
+              title="Installment Overdue"
+            />
           </Grid>
-        </Box>
+          <Grid xs={12} md={3} spacing={3} >
+            <Cards
+              gridXsCol={12}
+              gridMdCol={12}
+              title="Broken Deposit"
+              data={120}
+            />
+            <Cards
+              gridXsCol={12}
+              gridMdCol={12}
+              title="Frozen Savings"
+              data={120}
+            />
+            <Cards
+              gridXsCol={12}
+              gridMdCol={12}
+              title="Current Accounts"
+              data={120}
+            />
+          </Grid>
+          <TotalAmounts gridXsCol={12} gridMdCol={9} title="Total Amounts" />
+        </Grid>
       </Box>
     </Box>
   );

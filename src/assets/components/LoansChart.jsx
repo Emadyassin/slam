@@ -1,8 +1,10 @@
-// import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import PropTypes from "prop-types";
 
-const ApexChart = () => {
+const LoansChart = ({gridXsCol,gridMdCol,title}) => {
   const LoanStageData = [
     { Stage: "Request", LoanNo: 76 },
     { Stage: "Study", LoanNo: 67 },
@@ -74,15 +76,29 @@ const ApexChart = () => {
   });
 
   return (
-    <div id="chart">
-      <ReactApexChart
-        options={chartState.options}
-        series={chartState.series}
-        type="radialBar"
-        height={300}
-      />
-    </div>
+    <Grid xs={gridXsCol} md={gridMdCol}>
+      <Box borderRadius={8} width boxShadow={3} padding={2} height>
+        <Typography variant="body1" component="h3" gutterBottom>
+         {title}
+        </Typography>
+        <Divider color="white" />
+        <div id="chart">
+          <ReactApexChart
+            options={chartState.options}
+            series={chartState.series}
+            type="radialBar"
+            height={300}
+          />
+        </div>
+      </Box>
+    </Grid>
   );
 };
 
-export default ApexChart;
+LoansChart.propTypes = {
+  gridXsCol: PropTypes.number,
+  gridMdCol: PropTypes.number,
+  title: PropTypes.string,
+};
+
+export default LoansChart;
